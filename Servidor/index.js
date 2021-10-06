@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const morgan = require("morgan");
 const Productos = require("../db/modelos/Productos");
@@ -5,7 +6,9 @@ const rutasProductos = require("./rutas/productos");
 
 const app = express();
 
-app.listen(3010, (err) => {
+const puerto = process.env.PORT || 4000;
+
+app.listen(puerto, (err) => {
   if (err) {
     console.log("No se puede levantar el servidor");
     return;
