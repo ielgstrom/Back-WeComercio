@@ -20,7 +20,7 @@ const ProductosSchema = new Schema({
     type: String,
   },
   Precio: {
-    type: String,
+    type: Number,
     required: true,
   },
   Stock: {
