@@ -4,6 +4,7 @@ const cors = require("cors");
 const morgan = require("morgan");
 const Productos = require("../db/modelos/Productos");
 const rutasProductos = require("./rutas/productos");
+const rutasUsuarios = require("./rutas/usuarios");
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.listen(puerto, (err) => {
 app.use(morgan("dev"));
 app.use(cors({ origin: "https://localhost:3000" }));
 app.use(express.json());
+app.use("/usuario", cors(), rutasUsuarios);
 app.use("/producto", cors(), rutasProductos);
 
 app.use((req, res, next) => {
