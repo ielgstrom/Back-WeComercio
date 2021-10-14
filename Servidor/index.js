@@ -19,7 +19,11 @@ app.listen(puerto, (err) => {
 });
 
 app.use(morgan("dev"));
-app.use(cors({ origin: "https://localhost:3000" }));
+app.use(
+  cors({
+    origin: ["https://localhost:3000", "https://web-comercio.netlify.app/"],
+  })
+);
 app.use(express.json());
 app.use("/usuario", cors(), rutasUsuarios);
 app.use("/producto", cors(), rutasProductos);
