@@ -33,7 +33,9 @@ app.use((req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
-  console.log("Manejador de Errores");
-  console.log(`Error${err.message}`);
-  res.status(500).json({ error: true, mensaje: err.message });
+  const status = err.codigo || 500;
+  const mensaje = err.codigo ? err.message : "Error general en el servidor";
+  // console.log("Manejador de Errores");
+  console.log(err.message);
+  res.status(status).json({ error: true, mensaje });
 });

@@ -11,8 +11,29 @@ const crearUsuario = async (usuario, mail, contraseña) => {
     return nuevoUsuario;
   } catch (err) {
     const nuevoError = new Error("No se ha podido crear el usuario");
-    console.log(err.message);
+    return err.message;
+  }
+};
+const loginUsuario = async (Email, contraseña) => {
+  try {
+    const usuarioEncontrado = await Usuarios.findOne({
+      Email,
+    });
+    if (!usuarioEncontrado) {
+      const nuevoError = new Error("Credenciales Incorrectas");
+      nuevoError.codigo = 403;
+      throw nuevoError;
+    }
+    if (contraseña !== usuarioEncontrado.Contraseña) {
+      const nuevoError = new Error("Credenciales Incorrectas");
+      nuevoError.codigo = 403;
+      throw nuevoError;
+    }
+    return usuarioEncontrado._id;
+  } catch (err) {
+    const nuevoError = new Error("Error al comprovar las credenciales");
+    throw err.codigo ? err : nuevoError;
   }
 };
 
-module.exports = { crearUsuario };
+module.exports = { crearUsuario, loginUsuario };
