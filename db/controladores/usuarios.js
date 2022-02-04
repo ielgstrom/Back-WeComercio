@@ -29,7 +29,7 @@ const loginUsuario = async (Email, contraseña) => {
       nuevoError.codigo = 403;
       throw nuevoError;
     }
-    return usuarioEncontrado._id;
+    return usuarioEncontrado;
   } catch (err) {
     const nuevoError = new Error("Error al comprovar las credenciales");
     throw err.codigo ? err : nuevoError;
