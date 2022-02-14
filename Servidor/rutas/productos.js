@@ -1,6 +1,9 @@
 const express = require("express");
 const Producto = require("../../db/modelos/Productos");
-const buscarProducto = require("../../db/controladores/productos");
+const {
+  buscarProducto,
+  buscarProductoPorString,
+} = require("../../db/controladores/productos");
 
 const router = express.Router();
 
@@ -18,9 +21,36 @@ router.get("/:idProducto", async (req, res, next) => {
   try {
     const { idProducto } = req.params;
     const productoEncontrado = await buscarProducto(idProducto);
-    res.json(productoEncontrado);
+    const productosTotales = await Producto.find();
+    const productosSugeridos = [];
+    while (productosSugeridos.length < 3) {
+      const elementoRandom = Math.floor(
+        Math.random() * productosTotales.length
+      );
+      if (productosTotales[elementoRandom] === productoEncontrado) {
+        // eslint-disable-next-line no-continue
+        continue;
+      } else if (
+        productosTotales[elementoRandom] !== productoEncontrado &&
+        !productosSugeridos.includes(productosTotales[elementoRandom])
+      ) {
+        productosSugeridos.push(productosTotales[elementoRandom]);
+      }
+    }
+    res.json({ productoEncontrado, productosSugeridos });
   } catch (err) {
     console.log(err);
   }
 });
+
+router.get("/busqueda/:expresion", async (req, res, next) => {
+  try {
+    const { expresion } = req.params;
+    const resultado = await buscarProductoPorString(expresion);
+    res.send(resultado);
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 module.exports = router;

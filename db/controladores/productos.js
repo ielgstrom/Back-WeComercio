@@ -12,4 +12,21 @@ const buscarProducto = async (idProducto) => {
     return err.message;
   }
 };
-module.exports = buscarProducto;
+
+const buscarProductoPorString = async (stringBusqueda) => {
+  try {
+    const productoDeBusquedaEncontrado = await Productos.find({
+      Nombre: { $regex: `${stringBusqueda}`, $options: "si" },
+    });
+
+    const categoriaDeBusquedaEncontrado = await Productos.find({
+      Categoria: { $regex: `${stringBusqueda}`, $options: "si" },
+    });
+
+    return { productoDeBusquedaEncontrado, categoriaDeBusquedaEncontrado };
+  } catch (err) {
+    const nuevoError = new Error("No se ha podido encontrar el producto");
+    return err.message;
+  }
+};
+module.exports = { buscarProducto, buscarProductoPorString };
