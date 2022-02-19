@@ -69,6 +69,16 @@ router.post("/login", async (req, res, next) => {
   }
 });
 
+router.delete("/delete", async (req, res, next) => {
+  const { Email, Contraseña } = req.body;
+  try {
+    const deletedUser = await Usuario.findOneAndDelete({ Email, Contraseña });
+    res.status(204).json({ deletedUser });
+  } catch (err) {
+    next(err);
+  }
+});
+
 router.get("/datos", authMiddleware, async (req, res, next) => {
   const id = req.idUsuario;
   res.json({ datos: [1, 2, 3] });
@@ -81,7 +91,7 @@ router.get("/datos", authMiddleware, async (req, res, next) => {
 // try {
 // const token = req.header("Authorization").split(" ")[1];
 //     const token =
-//       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZFVzdWFyaW8iOiI2MTY5NTMwM2M2M2E0ODFlNDFjNTQ0NmEiLCJpYXQiOjE2MzQ2NDQxOTAsImV4cCI6MTYzNDczMDU5MH0.iseL2kX4ME-cZD-QwAET3GRHbxbGuZQaEHPhzp2pQE8";
+//       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZFVzdWFyaWiOiI2MTY5NTMwM2M2M2E0ODFlNDFjNTQ0NmEiLCJpYXQiOjE2MzQ2NDQxOTAsImV4cCI6MTYzNDczMDU5MH0.iseL2kX4ME-cZD-QwAET3GRHbxbGuZQaEHPhzp2pQE8";
 //     const datosToken = jwt.verify(token, process.env.CLAVE_JWT);
 //     res.send(datosToken);
 //   } catch (err) {

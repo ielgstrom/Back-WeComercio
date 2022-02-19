@@ -36,4 +36,13 @@ const loginUsuario = async (Email, contraseña) => {
   }
 };
 
+// const deleteUsuario = asyc(mail, constraseña)=>{
+//   try{
+
+//   }catch(err){
+//     const nuevoError = new Error("No se ha podido eliminar el usuario");
+//     return err.message;
+//   }
+// }
+
 module.exports = { crearUsuario, loginUsuario };
