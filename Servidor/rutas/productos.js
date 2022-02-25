@@ -3,6 +3,7 @@ const Producto = require("../../db/modelos/Productos");
 const {
   buscarProducto,
   buscarProductoPorString,
+  buscarProductoPorCategoria,
 } = require("../../db/controladores/productos");
 
 const router = express.Router();
@@ -37,7 +38,7 @@ router.get("/:idProducto", async (req, res, next) => {
         productosSugeridos.push(productosTotales[elementoRandom]);
       }
     }
-    res.json({ productoEncontrado, productosSugeridos });
+    res.status(200).json({ productoEncontrado, productosSugeridos });
   } catch (err) {
     console.log(err);
   }
@@ -47,7 +48,17 @@ router.get("/busqueda/:expresion", async (req, res, next) => {
   try {
     const { expresion } = req.params;
     const resultado = await buscarProductoPorString(expresion);
-    res.send(resultado);
+    res.status(200).send(resultado);
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+router.get("/busqueda/categoria/:categoria", async (req, res, next) => {
+  try {
+    const { categoria } = req.params;
+    const resultado = await buscarProductoPorCategoria(categoria);
+    res.status(200).send(resultado);
   } catch (err) {
     console.log(err);
   }

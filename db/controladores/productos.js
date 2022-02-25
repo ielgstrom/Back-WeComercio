@@ -29,4 +29,20 @@ const buscarProductoPorString = async (stringBusqueda) => {
     return err.message;
   }
 };
-module.exports = { buscarProducto, buscarProductoPorString };
+
+const buscarProductoPorCategoria = async (categoriaSearch) => {
+  try {
+    const productoEncontrado = await Productos.find({
+      Categoria: categoriaSearch.replace("-", " "),
+    });
+    return productoEncontrado;
+  } catch (err) {
+    const nuevoError = new Error("No se ha podido encontrar el producto");
+    return err.message;
+  }
+};
+module.exports = {
+  buscarProducto,
+  buscarProductoPorString,
+  buscarProductoPorCategoria,
+};
