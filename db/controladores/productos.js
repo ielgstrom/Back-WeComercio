@@ -33,7 +33,7 @@ const buscarProductoPorString = async (stringBusqueda) => {
 const buscarProductoPorCategoria = async (categoriaSearch) => {
   try {
     const productoEncontrado = await Productos.find({
-      Categoria: categoriaSearch.replace("-", " "),
+      Categoria: categoriaSearch.replaceAll("-", " "),
     });
     return productoEncontrado;
   } catch (err) {
