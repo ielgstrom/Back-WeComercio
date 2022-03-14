@@ -14,6 +14,7 @@ const UsuariosSchema = new Schema({
     type: String,
     required: true,
   },
+  elementosComprados: [{ type: Schema.Types.ObjectId, ref: "producto" }],
 });
 
 const Usuario = model("usuario", UsuariosSchema, "Usuarios");

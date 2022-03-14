@@ -57,7 +57,7 @@ router.post("/login", async (req, res, next) => {
     const resultadoUsuarioSeguro = {
       _id: resultadoUsuario._id,
       Email: resultadoUsuario.Email,
-      Contraseña: resultadoUsuario.Contraseña,
+      // Contraseña: resultadoUsuario.Contraseña,
       Nombre: resultadoUsuario.Nombre,
     };
     const token = jwt.sign({ resultadoUsuarioSeguro }, process.env.CLAVE_JWT, {
@@ -73,7 +73,12 @@ router.delete("/delete", async (req, res, next) => {
   const { Email, Contraseña } = req.body;
   try {
     const deletedUser = await Usuario.findOneAndDelete({ Email, Contraseña });
-    res.status(204).json({ deletedUser });
+    console.log(deletedUser);
+    if (deletedUser !== null) {
+      res.status(204).json({ deletedUser });
+    } else {
+      res.status(404).json({ error: "Not deleted correctly" });
+    }
   } catch (err) {
     next(err);
   }
